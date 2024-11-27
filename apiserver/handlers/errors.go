@@ -66,7 +66,4 @@ func ErrNotAuthorized(err error) render.Renderer {
 }
 
 var ErrNotFound = &ErrResponse{HTTPStatusCode: 404, StatusText: "Resource not found."}
-
-// var ErrNotAuthorized = &ErrResponse{HTTPStatusCode: 401, StatusText: "Not authorized.", ErrorText: "Invalid credentials."}
 var ErrForbidden = &ErrResponse{HTTPStatusCode: 403, StatusText: "Forbidden.", ErrorText: "You do not have permission to access this resource."}
-var ErrDuplicateContact = &ErrResponse{HTTPStatusCode: 409, StatusText: "Duplicate contact.", ErrorText: "A contact with same name already exists."}
