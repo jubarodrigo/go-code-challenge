@@ -1,8 +1,14 @@
 package cmd
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/docgen"
@@ -15,7 +21,7 @@ import (
 )
 
 type Args struct {
-	Address  string `short:"a" long:"address" description:"The address to listen on for HTTP requests" default:"0.0.0.0"`
+	Address  string `short:"a" long:"address" description:"The address to listen on for HTTP requests" default:"localhost"`
 	Port     int    `short:"p" long:"port" description:"The port to listen on for HTTP requests" default:"3333"`
 	Routes   bool   `short:"r" long:"routes" description:"Generate router documentation"`
 	Database bool   `short:"d" long:"database" description:"Use a database"`
@@ -70,25 +76,45 @@ func (star *Starship) setConfig() {
 func (star *Starship) setWebServer() {
 	log.Info().Msg("Starting Web Server...")
 
-	port := fmt.Sprintf(":%d", star.args.Port)
-	webServer := apiserver.NewServer()
+	srv := &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", star.args.Address, star.args.Port),
+		Handler: star.setupRouter(),
+	}
 
+	go func() {
+		log.Info().Msgf("Listening on %s:%d", star.args.Address, star.args.Port)
+		if err := srv.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
+			log.Fatal().Err(err).Msg("Server error")
+		}
+	}()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
+	<-stop
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal().Err(err).Msg("Server shutdown failed")
+	}
+
+	log.Info().Msg("Server gracefully stopped")
+}
+
+func (star *Starship) setupRouter() http.Handler {
 	router := chi.NewRouter()
-	webServer.SetupRoutes(star.mode, router)
+	webServer := apiserver.NewServer()
+	webServer.SetupRoutes(router)
 
 	if star.args.Routes {
 		log.Info().Msg(docgen.JSONRoutesDoc(router))
-
-		return
 	}
 
-	if err := http.ListenAndServe(port, router); err != nil {
-		panic(err)
-	}
+	return router
 }
 
-func (star *Starship) setDatabase() {
-}
+func (star *Starship) setDatabase() {}
 
 func (star *Starship) setRepositories() {
 }

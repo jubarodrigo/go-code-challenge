@@ -2,13 +2,11 @@ package apiserver
 
 import (
 	"fmt"
-	"net/http"
-	"time"
-
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/render"
 	"github.com/rs/zerolog/log"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
+	"go-code-challenge/apiserver/handlers"
+	"net/http"
 )
 
 type ApiServer struct {
@@ -18,36 +16,24 @@ func NewServer() *ApiServer {
 	return &ApiServer{}
 }
 
-func (a *ApiServer) SetupRoutes(envBaseUrl string, r *chi.Mux) {
-	envBaseUrl = fmt.Sprintf("/%s", envBaseUrl)
-
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+func (a *ApiServer) SetupRoutes(router *chi.Mux) {
+	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "web/index.html")
 	})
 
 	fs := http.FileServer(http.Dir("web"))
-	r.Get("/web/*", http.StripPrefix("/web", fs).ServeHTTP)
+	router.Get("/web/*", http.StripPrefix("/web", fs).ServeHTTP)
 
-	a.registerCommonAPI(envBaseUrl, r)
+	healthHandler := handlers.NewHealthHandler()
 
-	serveSwagger(r)
+	a.registerCommonAPI(router, healthHandler)
+
+	serveSwagger(router)
 }
 
-func handleServerTime(response http.ResponseWriter, request *http.Request) {
-	log.Info().Msg(fmt.Sprintf("Handling Server time %s", time.Now().String()))
-	type serverTime struct {
-		Time string `json:"time"`
-	}
-	now := time.Now()
-	data := &serverTime{
-		Time: now.Format(time.RFC3339),
-	}
-	render.JSON(response, request, data)
-}
-
-func (a *ApiServer) registerCommonAPI(envBaseUrl string, subrouter chi.Router) {
+func (a *ApiServer) registerCommonAPI(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
 	subrouter.Group(func(r chi.Router) {
-		r.Get(envBaseUrl+"/server-time", handleServerTime)
+		r.Get("/", healthHandler.CheckHealth)
 	})
 }
 
