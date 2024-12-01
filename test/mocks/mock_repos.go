@@ -12,69 +12,31 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockUserRepository is a mock of UserRepository interface.
-type MockUserRepository struct {
+// MockDatasJsonRepositoryInterface is a mock of DatasJsonRepositoryInterface interface.
+type MockDatasJsonRepositoryInterface struct {
 	ctrl     *gomock.Controller
-	recorder *MockUserRepositoryMockRecorder
+	recorder *MockDatasJsonRepositoryInterfaceMockRecorder
 }
 
-// MockUserRepositoryMockRecorder is the mock recorder for MockUserRepository.
-type MockUserRepositoryMockRecorder struct {
-	mock *MockUserRepository
+// MockDatasJsonRepositoryInterfaceMockRecorder is the mock recorder for MockDatasJsonRepositoryInterface.
+type MockDatasJsonRepositoryInterfaceMockRecorder struct {
+	mock *MockDatasJsonRepositoryInterface
 }
 
-// NewMockUserRepository creates a new mock instance.
-func NewMockUserRepository(ctrl *gomock.Controller) *MockUserRepository {
-	mock := &MockUserRepository{ctrl: ctrl}
-	mock.recorder = &MockUserRepositoryMockRecorder{mock}
+// NewMockDatasJsonRepositoryInterface creates a new mock instance.
+func NewMockDatasJsonRepositoryInterface(ctrl *gomock.Controller) *MockDatasJsonRepositoryInterface {
+	mock := &MockDatasJsonRepositoryInterface{ctrl: ctrl}
+	mock.recorder = &MockDatasJsonRepositoryInterfaceMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
-	return m.recorder
-}
-
-// GetUserByID mocks base method.
-func (m *MockUserRepository) GetUserByID(id int) (*users.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByID", id)
-	ret0, _ := ret[0].(*users.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetUserByID indicates an expected call of GetUserByID.
-func (mr *MockUserRepositoryMockRecorder) GetUserByID(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockUserRepository)(nil).GetUserByID), id)
-}
-
-// MockActionRepository is a mock of ActionRepository interface.
-type MockActionRepository struct {
-	ctrl     *gomock.Controller
-	recorder *MockActionRepositoryMockRecorder
-}
-
-// MockActionRepositoryMockRecorder is the mock recorder for MockActionRepository.
-type MockActionRepositoryMockRecorder struct {
-	mock *MockActionRepository
-}
-
-// NewMockActionRepository creates a new mock instance.
-func NewMockActionRepository(ctrl *gomock.Controller) *MockActionRepository {
-	mock := &MockActionRepository{ctrl: ctrl}
-	mock.recorder = &MockActionRepositoryMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockActionRepository) EXPECT() *MockActionRepositoryMockRecorder {
+func (m *MockDatasJsonRepositoryInterface) EXPECT() *MockDatasJsonRepositoryInterfaceMockRecorder {
 	return m.recorder
 }
 
 // GetActionsByUserID mocks base method.
-func (m *MockActionRepository) GetActionsByUserID(userID int) ([]actions.Action, error) {
+func (m *MockDatasJsonRepositoryInterface) GetActionsByUserID(userID int) ([]actions.Action, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetActionsByUserID", userID)
 	ret0, _ := ret[0].([]actions.Action)
@@ -83,13 +45,13 @@ func (m *MockActionRepository) GetActionsByUserID(userID int) ([]actions.Action,
 }
 
 // GetActionsByUserID indicates an expected call of GetActionsByUserID.
-func (mr *MockActionRepositoryMockRecorder) GetActionsByUserID(userID interface{}) *gomock.Call {
+func (mr *MockDatasJsonRepositoryInterfaceMockRecorder) GetActionsByUserID(userID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActionsByUserID", reflect.TypeOf((*MockActionRepository)(nil).GetActionsByUserID), userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActionsByUserID", reflect.TypeOf((*MockDatasJsonRepositoryInterface)(nil).GetActionsByUserID), userID)
 }
 
 // GetAllActions mocks base method.
-func (m *MockActionRepository) GetAllActions() ([]actions.Action, error) {
+func (m *MockDatasJsonRepositoryInterface) GetAllActions() ([]actions.Action, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllActions")
 	ret0, _ := ret[0].([]actions.Action)
@@ -98,7 +60,22 @@ func (m *MockActionRepository) GetAllActions() ([]actions.Action, error) {
 }
 
 // GetAllActions indicates an expected call of GetAllActions.
-func (mr *MockActionRepositoryMockRecorder) GetAllActions() *gomock.Call {
+func (mr *MockDatasJsonRepositoryInterfaceMockRecorder) GetAllActions() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllActions", reflect.TypeOf((*MockActionRepository)(nil).GetAllActions))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllActions", reflect.TypeOf((*MockDatasJsonRepositoryInterface)(nil).GetAllActions))
+}
+
+// GetUserByID mocks base method.
+func (m *MockDatasJsonRepositoryInterface) GetUserByID(id int) (*users.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByID", id)
+	ret0, _ := ret[0].(*users.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserByID indicates an expected call of GetUserByID.
+func (mr *MockDatasJsonRepositoryInterfaceMockRecorder) GetUserByID(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockDatasJsonRepositoryInterface)(nil).GetUserByID), id)
 }

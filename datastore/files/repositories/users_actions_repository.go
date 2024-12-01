@@ -3,6 +3,7 @@ package repositories
 import (
 	"encoding/json"
 	"fmt"
+	"go-code-challenge/datastore"
 	"io/ioutil"
 	"sync"
 
@@ -18,7 +19,7 @@ type JSONRepository struct {
 
 const fileBase = "../../datas/"
 
-func NewJSONRepository() *JSONRepository {
+func NewJSONRepository() datastore.DatasJsonRepositoryInterface {
 	return &JSONRepository{}
 }
 

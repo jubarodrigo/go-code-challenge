@@ -11,31 +11,31 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockUserService is a mock of UserService interface.
-type MockUserService struct {
+// MockUserServiceInterface is a mock of UserServiceInterface interface.
+type MockUserServiceInterface struct {
 	ctrl     *gomock.Controller
-	recorder *MockUserServiceMockRecorder
+	recorder *MockUserServiceInterfaceMockRecorder
 }
 
-// MockUserServiceMockRecorder is the mock recorder for MockUserService.
-type MockUserServiceMockRecorder struct {
-	mock *MockUserService
+// MockUserServiceInterfaceMockRecorder is the mock recorder for MockUserServiceInterface.
+type MockUserServiceInterfaceMockRecorder struct {
+	mock *MockUserServiceInterface
 }
 
-// NewMockUserService creates a new mock instance.
-func NewMockUserService(ctrl *gomock.Controller) *MockUserService {
-	mock := &MockUserService{ctrl: ctrl}
-	mock.recorder = &MockUserServiceMockRecorder{mock}
+// NewMockUserServiceInterface creates a new mock instance.
+func NewMockUserServiceInterface(ctrl *gomock.Controller) *MockUserServiceInterface {
+	mock := &MockUserServiceInterface{ctrl: ctrl}
+	mock.recorder = &MockUserServiceInterfaceMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
+func (m *MockUserServiceInterface) EXPECT() *MockUserServiceInterfaceMockRecorder {
 	return m.recorder
 }
 
 // FindUserByID mocks base method.
-func (m *MockUserService) FindUserByID(id int) (users.User, error) {
+func (m *MockUserServiceInterface) FindUserByID(id int) (users.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindUserByID", id)
 	ret0, _ := ret[0].(users.User)
@@ -44,36 +44,36 @@ func (m *MockUserService) FindUserByID(id int) (users.User, error) {
 }
 
 // FindUserByID indicates an expected call of FindUserByID.
-func (mr *MockUserServiceMockRecorder) FindUserByID(id interface{}) *gomock.Call {
+func (mr *MockUserServiceInterfaceMockRecorder) FindUserByID(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByID", reflect.TypeOf((*MockUserService)(nil).FindUserByID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByID", reflect.TypeOf((*MockUserServiceInterface)(nil).FindUserByID), id)
 }
 
-// MockActionService is a mock of ActionService interface.
-type MockActionService struct {
+// MockActionServiceInterface is a mock of ActionServiceInterface interface.
+type MockActionServiceInterface struct {
 	ctrl     *gomock.Controller
-	recorder *MockActionServiceMockRecorder
+	recorder *MockActionServiceInterfaceMockRecorder
 }
 
-// MockActionServiceMockRecorder is the mock recorder for MockActionService.
-type MockActionServiceMockRecorder struct {
-	mock *MockActionService
+// MockActionServiceInterfaceMockRecorder is the mock recorder for MockActionServiceInterface.
+type MockActionServiceInterfaceMockRecorder struct {
+	mock *MockActionServiceInterface
 }
 
-// NewMockActionService creates a new mock instance.
-func NewMockActionService(ctrl *gomock.Controller) *MockActionService {
-	mock := &MockActionService{ctrl: ctrl}
-	mock.recorder = &MockActionServiceMockRecorder{mock}
+// NewMockActionServiceInterface creates a new mock instance.
+func NewMockActionServiceInterface(ctrl *gomock.Controller) *MockActionServiceInterface {
+	mock := &MockActionServiceInterface{ctrl: ctrl}
+	mock.recorder = &MockActionServiceInterfaceMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockActionService) EXPECT() *MockActionServiceMockRecorder {
+func (m *MockActionServiceInterface) EXPECT() *MockActionServiceInterfaceMockRecorder {
 	return m.recorder
 }
 
 // FindActionCountByUserID mocks base method.
-func (m *MockActionService) FindActionCountByUserID(userID int) (int, error) {
+func (m *MockActionServiceInterface) FindActionCountByUserID(userID int) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindActionCountByUserID", userID)
 	ret0, _ := ret[0].(int)
@@ -82,13 +82,13 @@ func (m *MockActionService) FindActionCountByUserID(userID int) (int, error) {
 }
 
 // FindActionCountByUserID indicates an expected call of FindActionCountByUserID.
-func (mr *MockActionServiceMockRecorder) FindActionCountByUserID(userID interface{}) *gomock.Call {
+func (mr *MockActionServiceInterfaceMockRecorder) FindActionCountByUserID(userID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindActionCountByUserID", reflect.TypeOf((*MockActionService)(nil).FindActionCountByUserID), userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindActionCountByUserID", reflect.TypeOf((*MockActionServiceInterface)(nil).FindActionCountByUserID), userID)
 }
 
 // FindNextActionProbabilities mocks base method.
-func (m *MockActionService) FindNextActionProbabilities(actionType string) (map[string]float64, error) {
+func (m *MockActionServiceInterface) FindNextActionProbabilities(actionType string) (map[string]float64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindNextActionProbabilities", actionType)
 	ret0, _ := ret[0].(map[string]float64)
@@ -97,13 +97,13 @@ func (m *MockActionService) FindNextActionProbabilities(actionType string) (map[
 }
 
 // FindNextActionProbabilities indicates an expected call of FindNextActionProbabilities.
-func (mr *MockActionServiceMockRecorder) FindNextActionProbabilities(actionType interface{}) *gomock.Call {
+func (mr *MockActionServiceInterfaceMockRecorder) FindNextActionProbabilities(actionType interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindNextActionProbabilities", reflect.TypeOf((*MockActionService)(nil).FindNextActionProbabilities), actionType)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindNextActionProbabilities", reflect.TypeOf((*MockActionServiceInterface)(nil).FindNextActionProbabilities), actionType)
 }
 
 // FindReferralIndex mocks base method.
-func (m *MockActionService) FindReferralIndex() (map[int]int, error) {
+func (m *MockActionServiceInterface) FindReferralIndex() (map[int]int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindReferralIndex")
 	ret0, _ := ret[0].(map[int]int)
@@ -112,7 +112,7 @@ func (m *MockActionService) FindReferralIndex() (map[int]int, error) {
 }
 
 // FindReferralIndex indicates an expected call of FindReferralIndex.
-func (mr *MockActionServiceMockRecorder) FindReferralIndex() *gomock.Call {
+func (mr *MockActionServiceInterfaceMockRecorder) FindReferralIndex() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindReferralIndex", reflect.TypeOf((*MockActionService)(nil).FindReferralIndex))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindReferralIndex", reflect.TypeOf((*MockActionServiceInterface)(nil).FindReferralIndex))
 }

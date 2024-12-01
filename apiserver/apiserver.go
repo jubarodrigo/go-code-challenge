@@ -2,6 +2,7 @@ package apiserver
 
 import (
 	"fmt"
+	"go-code-challenge/internal"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -12,29 +13,36 @@ import (
 )
 
 type ApiServer struct {
+	actionService internal.ActionServiceInterface
+	usersService  internal.UserServiceInterface
 }
 
-func NewServer() *ApiServer {
-	return &ApiServer{}
+func NewServer(actionService internal.ActionServiceInterface, usersService internal.UserServiceInterface) *ApiServer {
+	return &ApiServer{
+		actionService: actionService,
+		usersService:  usersService,
+	}
 }
 
-func (a *ApiServer) SetupRoutes(router *chi.Mux) {
+func (as *ApiServer) SetupRoutes(router *chi.Mux) {
 	healthHandler := handlers.NewHealthHandler()
+	actionsHandler := handlers.NewActionHandler(as.actionService)
+	usershandler := handlers.NewUserHandler(as.usersService)
 
-	a.registerCommonAPI(router, healthHandler)
-	a.registerUsers(router)
-	a.registerActions(router)
+	as.registerCommonAPI(router, healthHandler)
+	as.registerUsers(router, usershandler)
+	as.registerActions(router, actionsHandler)
 
 	serveSwagger(router)
 }
 
-func (a *ApiServer) registerCommonAPI(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
+func (as *ApiServer) registerCommonAPI(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
 	subrouter.Group(func(r chi.Router) {
 		r.Get("/health", healthHandler.CheckHealth)
 	})
 }
 
-func (a *ApiServer) registerUsers(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
+func (as *ApiServer) registerUsers(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
 	subrouter.Group(func(r chi.Router) {
 		r.Route("/users", func(r chi.Router) {
 			r.Get("/{id}", healthHandler.CheckHealth)
@@ -42,13 +50,13 @@ func (a *ApiServer) registerUsers(subrouter chi.Router, healthHandler *handlers.
 	})
 }
 
-func (a *ApiServer) registerActions(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
+func (as *ApiServer) registerActions(subrouter chi.Router, actionsHandler *handlers.ActionHandler) {
 	subrouter.Group(func(r chi.Router) {
 		r.Route("/actions", func(r chi.Router) {
-			r.Get("/{userID}/count", healthHandler.CheckHealth)
-			r.Get("/{type}/next", healthHandler.CheckHealth)
-			r.Get("/{userID}", healthHandler.CheckHealth)
-			r.Get("/referrals", healthHandler.CheckHealth)
+			r.Get("/{userID}/count", actionsHandler.GetActionCount)
+			r.Get("/{type}/next", actionsHandler.GetNextActionProbabilities)
+			// r.Get("/{userID}", actionsHandler.CheckHealth)
+			r.Get("/referrals", actionsHandler.GetReferralIndex)
 		})
 	})
 }
