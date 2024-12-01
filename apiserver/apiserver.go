@@ -17,23 +17,37 @@ func NewServer() *ApiServer {
 }
 
 func (a *ApiServer) SetupRoutes(router *chi.Mux) {
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "web/index.html")
-	})
-
-	fs := http.FileServer(http.Dir("web"))
-	router.Get("/web/*", http.StripPrefix("/web", fs).ServeHTTP)
-
 	healthHandler := handlers.NewHealthHandler()
 
 	a.registerCommonAPI(router, healthHandler)
+	a.registerUsers(router)
+	a.registerActions(router)
 
 	serveSwagger(router)
 }
 
 func (a *ApiServer) registerCommonAPI(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
 	subrouter.Group(func(r chi.Router) {
-		r.Get("/", healthHandler.CheckHealth)
+		r.Get("/health", healthHandler.CheckHealth)
+	})
+}
+
+func (a *ApiServer) registerUsers(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
+	subrouter.Group(func(r chi.Router) {
+		r.Route("/users", func(r chi.Router) {
+			r.Get("/{id}", healthHandler.CheckHealth)
+		})
+	})
+}
+
+func (a *ApiServer) registerActions(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
+	subrouter.Group(func(r chi.Router) {
+		r.Route("/actions", func(r chi.Router) {
+			r.Get("/{userID}/count", healthHandler.CheckHealth)
+			r.Get("/{type}/next", healthHandler.CheckHealth)
+			r.Get("/{userID}", healthHandler.CheckHealth)
+			r.Get("/referrals", healthHandler.CheckHealth)
+		})
 	})
 }
 

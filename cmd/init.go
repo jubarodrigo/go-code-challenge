@@ -1,8 +1,8 @@
 package cmd
 
 func StartApp() {
-	star := NewStarship()
-	buildDirector := NewStarshipBuilder(star)
+	star := NewApp()
+	buildDirector := NewAppBuilder(star)
 
 	buildDirector.BuildStarship()
 }

@@ -27,16 +27,16 @@ type Args struct {
 	Database bool   `short:"d" long:"database" description:"Use a database"`
 }
 
-type Starship struct {
+type CodeChallenge struct {
 	args Args
 	mode string
 }
 
-func NewStarship() *Starship {
-	return &Starship{}
+func NewApp() *CodeChallenge {
+	return &CodeChallenge{}
 }
 
-type StarshipBuilder interface {
+type AppBuilder interface {
 	setConfig()
 	setDatabase()
 	setRepositories()
@@ -45,12 +45,12 @@ type StarshipBuilder interface {
 }
 
 type BuildDirector struct {
-	builder StarshipBuilder
+	builder AppBuilder
 }
 
-func NewStarshipBuilder(sb StarshipBuilder) *BuildDirector {
+func NewAppBuilder(ab AppBuilder) *BuildDirector {
 	return &BuildDirector{
-		builder: sb,
+		builder: ab,
 	}
 }
 
@@ -62,7 +62,7 @@ func (sbd *BuildDirector) BuildStarship() {
 	sbd.builder.setWebServer()
 }
 
-func (star *Starship) setConfig() {
+func (star *CodeChallenge) setConfig() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
 	parser := flags.NewParser(&star.args, flags.Default)
@@ -73,7 +73,7 @@ func (star *Starship) setConfig() {
 	}
 }
 
-func (star *Starship) setWebServer() {
+func (star *CodeChallenge) setWebServer() {
 	log.Info().Msg("Starting Web Server...")
 
 	srv := &http.Server{
@@ -102,7 +102,7 @@ func (star *Starship) setWebServer() {
 	log.Info().Msg("Server gracefully stopped")
 }
 
-func (star *Starship) setupRouter() http.Handler {
+func (star *CodeChallenge) setupRouter() http.Handler {
 	router := chi.NewRouter()
 	webServer := apiserver.NewServer()
 	webServer.SetupRoutes(router)
@@ -114,10 +114,10 @@ func (star *Starship) setupRouter() http.Handler {
 	return router
 }
 
-func (star *Starship) setDatabase() {}
+func (star *CodeChallenge) setDatabase() {}
 
-func (star *Starship) setRepositories() {
+func (star *CodeChallenge) setRepositories() {
 }
 
-func (star *Starship) setServices() {
+func (star *CodeChallenge) setServices() {
 }
