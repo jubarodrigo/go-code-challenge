@@ -2,11 +2,13 @@ package apiserver
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
+
 	"go-code-challenge/apiserver/handlers"
-	"net/http"
 )
 
 type ApiServer struct {
