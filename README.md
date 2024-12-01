@@ -30,3 +30,7 @@ A simple code Challenge
 3. Architecture:
 
 ![alt text](docs/servicesArc.png "Architecture")
+
+4. Tools to help creations:
+      - [IDE - Goland](https://www.jetbrains.com/go/)
+      - [AI - Claude](https://claude.ai/)
