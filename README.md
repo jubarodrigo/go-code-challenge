@@ -29,4 +29,4 @@ A Service for Integration With Payment Vault
 
 3. Architecture:
 
-<img src="/home/cavalhero/dev/go-code-challenge/docs/servicesArc.png"/>
+![alt text](docs/servicesArc.png "Architecture")
