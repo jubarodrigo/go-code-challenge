@@ -5,8 +5,8 @@ A Service for Integration With Payment Vault
 ## Features
 
 - [x] RestApi
-- [x] Swagger Docs
-- [x] Unit Tests
+- [] Swagger Docs
+- [] Unit Tests
 
 ## Runing Local
 
