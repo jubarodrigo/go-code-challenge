@@ -6,10 +6,10 @@ import (
 )
 
 type UserRepository interface {
-	FindByID(id int) (users.User, error)
+	GetUserByID(id int) (*users.User, error)
 }
 
 type ActionRepository interface {
-	FindByUserID(userID int) ([]actions.Action, error)
-	FindAll() ([]actions.Action, error)
+	GetActionsByUserID(userID int) ([]actions.Action, error)
+	GetAllActions() ([]actions.Action, error)
 }

@@ -3,10 +3,11 @@ package repositories
 import (
 	"encoding/json"
 	"fmt"
-	"go-code-challenge/internal/actions"
-	"go-code-challenge/internal/users"
 	"io/ioutil"
 	"sync"
+
+	"go-code-challenge/internal/actions"
+	"go-code-challenge/internal/users"
 )
 
 type JSONRepository struct {
@@ -53,7 +54,7 @@ func (r *JSONRepository) initialize() error {
 	return err
 }
 
-func (r *JSONRepository) FindByID(id int) (*users.User, error) {
+func (r *JSONRepository) GetUserByID(id int) (*users.User, error) {
 	if err := r.initialize(); err != nil {
 		return nil, fmt.Errorf("error initializing repository: %v", err)
 	}
@@ -66,7 +67,7 @@ func (r *JSONRepository) FindByID(id int) (*users.User, error) {
 	return nil, fmt.Errorf("user not found")
 }
 
-func (r *JSONRepository) FindByUserID(userID int) ([]actions.Action, error) {
+func (r *JSONRepository) GetActionsByUserID(userID int) ([]actions.Action, error) {
 	if err := r.initialize(); err != nil {
 		return nil, err
 	}
@@ -80,7 +81,7 @@ func (r *JSONRepository) FindByUserID(userID int) ([]actions.Action, error) {
 	return userActions, nil
 }
 
-func (r *JSONRepository) FindAll() ([]actions.Action, error) {
+func (r *JSONRepository) GetAllActions() ([]actions.Action, error) {
 	if err := r.initialize(); err != nil {
 		return nil, fmt.Errorf("error initializing JSON repository: %v", err)
 	}
