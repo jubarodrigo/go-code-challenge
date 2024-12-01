@@ -6,6 +6,7 @@ require (
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/go-chi/docgen v1.3.0
 	github.com/go-chi/render v1.0.3
+	github.com/golang/mock v1.6.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/rs/zerolog v1.33.0
 	github.com/swaggo/http-swagger/example/go-chi v0.0.0-20240815064334-3a7ae3083475
