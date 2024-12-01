@@ -2,7 +2,6 @@ package apiserver
 
 import (
 	"fmt"
-	"go-code-challenge/internal"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -10,6 +9,7 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 
 	"go-code-challenge/apiserver/handlers"
+	"go-code-challenge/internal"
 )
 
 type ApiServer struct {

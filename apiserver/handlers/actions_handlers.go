@@ -21,14 +21,14 @@ func NewActionHandler(actionService internal.ActionServiceInterface) *ActionHand
 	}
 }
 
-func (h *ActionHandler) GetActionCount(w http.ResponseWriter, r *http.Request) {
+func (ah *ActionHandler) GetActionCount(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(chi.URLParam(r, "userID"))
 	if err != nil {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
 
-	count, err := h.actionService.FindActionCountByUserID(userID)
+	count, err := ah.actionService.FindActionCountByUserID(userID)
 	if err != nil {
 		render.Render(w, r, ErrInternalServer(err))
 		return
@@ -37,14 +37,14 @@ func (h *ActionHandler) GetActionCount(w http.ResponseWriter, r *http.Request) {
 	render.JSON(w, r, map[string]int{"count": count})
 }
 
-func (h *ActionHandler) GetNextActionProbabilities(w http.ResponseWriter, r *http.Request) {
+func (ah *ActionHandler) GetNextActionProbabilities(w http.ResponseWriter, r *http.Request) {
 	actionType := chi.URLParam(r, "type")
 	if actionType == "" {
 		render.Render(w, r, ErrInvalidRequest(fmt.Errorf("action type is required")))
 		return
 	}
 
-	probabilities, err := h.actionService.FindNextActionProbabilities(actionType)
+	probabilities, err := ah.actionService.FindNextActionProbabilities(actionType)
 	if err != nil {
 		render.Render(w, r, ErrInternalServer(err))
 		return
@@ -53,8 +53,8 @@ func (h *ActionHandler) GetNextActionProbabilities(w http.ResponseWriter, r *htt
 	render.JSON(w, r, probabilities)
 }
 
-func (h *ActionHandler) GetReferralIndex(w http.ResponseWriter, r *http.Request) {
-	referralIndex, err := h.actionService.FindReferralIndex()
+func (ah *ActionHandler) GetReferralIndex(w http.ResponseWriter, r *http.Request) {
+	referralIndex, err := ah.actionService.FindReferralIndex()
 	if err != nil {
 		render.Render(w, r, ErrInternalServer(err))
 		return
