@@ -1,3 +1,4 @@
+//go:generate mockgen -source=./interfaces.go -package=mocks -destination=../test/mocks/mock_repos.go
 package datastore
 
 import (
