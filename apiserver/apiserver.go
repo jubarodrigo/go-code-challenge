@@ -42,10 +42,10 @@ func (as *ApiServer) registerCommonAPI(subrouter chi.Router, healthHandler *hand
 	})
 }
 
-func (as *ApiServer) registerUsers(subrouter chi.Router, healthHandler *handlers.HealthHandler) {
+func (as *ApiServer) registerUsers(subrouter chi.Router, userHandler *handlers.UserHandler) {
 	subrouter.Group(func(r chi.Router) {
 		r.Route("/users", func(r chi.Router) {
-			r.Get("/{id}", healthHandler.CheckHealth)
+			r.Get("/{id}", userHandler.GetUser)
 		})
 	})
 }
