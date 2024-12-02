@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"go-code-challenge/datastore"
+	"go-code-challenge/internal"
 )
 
 const referUser = "REFER_USER"
@@ -12,11 +13,11 @@ type ActionService struct {
 	repo datastore.DatasJsonRepositoryInterface
 }
 
-func NewActionService(repo datastore.DatasJsonRepositoryInterface) *ActionService {
+func NewActionService(repo datastore.DatasJsonRepositoryInterface) internal.ActionServiceInterface {
 	return &ActionService{repo: repo}
 }
 
-func (s *ActionService) GetActionCountByUserID(userID int) (int, error) {
+func (s *ActionService) FindActionCountByUserID(userID int) (int, error) {
 	actions, err := s.repo.GetActionsByUserID(userID)
 	if err != nil {
 		return 0, fmt.Errorf("error getting actions: %w", err)
@@ -24,7 +25,7 @@ func (s *ActionService) GetActionCountByUserID(userID int) (int, error) {
 	return len(actions), nil
 }
 
-func (s *ActionService) GetNextActionProbabilities(actionType string) (map[string]float64, error) {
+func (s *ActionService) FindNextActionProbabilities(actionType string) (map[string]float64, error) {
 	actions, err := s.repo.GetAllActions()
 	if err != nil {
 		return nil, fmt.Errorf("error getting actions: %w", err)
@@ -51,7 +52,7 @@ func (s *ActionService) GetNextActionProbabilities(actionType string) (map[strin
 	return probabilities, nil
 }
 
-func (s *ActionService) GetReferralIndex() (map[int]int, error) {
+func (s *ActionService) FindReferralIndex() (map[int]int, error) {
 	actions, err := s.repo.GetAllActions()
 	if err != nil {
 		return nil, fmt.Errorf("error getting actions: %w", err)

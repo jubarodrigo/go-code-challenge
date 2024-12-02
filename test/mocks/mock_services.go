@@ -35,10 +35,10 @@ func (m *MockUserServiceInterface) EXPECT() *MockUserServiceInterfaceMockRecorde
 }
 
 // FindUserByID mocks base method.
-func (m *MockUserServiceInterface) FindUserByID(id int) (users.User, error) {
+func (m *MockUserServiceInterface) FindUserByID(id int) (*users.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindUserByID", id)
-	ret0, _ := ret[0].(users.User)
+	ret0, _ := ret[0].(*users.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
