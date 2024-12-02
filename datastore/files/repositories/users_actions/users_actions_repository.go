@@ -1,4 +1,4 @@
-package repositories
+package users_actions
 
 import (
 	"encoding/json"
