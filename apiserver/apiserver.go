@@ -2,9 +2,11 @@ package apiserver
 
 import (
 	"fmt"
+	"github.com/go-chi/render"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/zerolog/log"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 
@@ -25,6 +27,8 @@ func NewServer(actionService internal.ActionServiceInterface, usersService inter
 }
 
 func (as *ApiServer) SetupRoutes(router *chi.Mux) {
+	as.setupMiddleware(router)
+
 	healthHandler := handlers.NewHealthHandler()
 	actionsHandler := handlers.NewActionHandler(as.actionService)
 	usershandler := handlers.NewUserHandler(as.usersService)
@@ -55,7 +59,6 @@ func (as *ApiServer) registerActions(subrouter chi.Router, actionsHandler *handl
 		r.Route("/actions", func(r chi.Router) {
 			r.Get("/{userID}/count", actionsHandler.GetActionCount)
 			r.Get("/{type}/next", actionsHandler.GetNextActionProbabilities)
-			// r.Get("/{userID}", actionsHandler.CheckHealth)
 			r.Get("/referrals", actionsHandler.GetReferralIndex)
 		})
 	})
@@ -84,4 +87,12 @@ func serveSwagger(router chi.Router) {
 			"urls": fmt.Sprintf("[%s]", specUrls),
 		}),
 	))
+}
+
+func (a *ApiServer) setupMiddleware(r *chi.Mux) {
+	r.Use(middleware.RequestID)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.URLFormat)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
 }

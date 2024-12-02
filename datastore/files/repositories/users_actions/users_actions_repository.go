@@ -17,7 +17,7 @@ type JSONRepository struct {
 	initOnce sync.Once
 }
 
-const fileBase = "../../datas/"
+const fileBase = "./datastore/files/datas/"
 
 func NewJSONRepository() datastore.DatasJsonRepositoryInterface {
 	return &JSONRepository{}
