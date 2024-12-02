@@ -1,4 +1,36 @@
 basePath: /
+definitions:
+  handlers.ErrResponse:
+    properties:
+      code:
+        description: application-specific error code
+        type: integer
+      error:
+        description: user-level status message
+        type: string
+      message:
+        description: application-level error message, for debugging
+        type: string
+      status:
+        description: http response status code
+        type: integer
+    type: object
+  handlers.HealthStatus:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  users.User:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
 host: localhost
 info:
   contact:
@@ -12,5 +44,127 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Go Code Challenge API
   version: "1.0"
-paths: {}
+paths:
+  /actions/{type}/next:
+    get:
+      consumes:
+      - application/json
+      description: Returns probability distribution of next actions given a specific
+        action type
+      parameters:
+      - description: Action Type
+        in: path
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: number
+            type: object
+        "400":
+          description: Invalid or missing action type
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+      tags:
+      - actions
+  /actions/{userID}/count:
+    get:
+      consumes:
+      - application/json
+      description: Returns the total number of actions performed by a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: count
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "400":
+          description: Invalid user ID format
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+      tags:
+      - actions
+  /actions/referrals:
+    get:
+      consumes:
+      - application/json
+      description: Returns the referral index for all users, showing direct and indirect
+        referrals
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+      tags:
+      - actions
+  /health:
+    get:
+      description: Returns the current health status of the API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.HealthStatus'
+      tags:
+      - health
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a user's information given their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/users.User'
+        "400":
+          description: Invalid user ID format
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+      tags:
+      - users
 swagger: "2.0"
